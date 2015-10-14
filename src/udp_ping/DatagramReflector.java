@@ -20,10 +20,13 @@ public class DatagramReflector extends Thread {
     
 
     /** Creates new DatagramReflector */
-    public DatagramReflector() {
+    public DatagramReflector() 
+    {
+    	
     }
     
-    public void initialize(long id, String localIP, String localPort, int datagramSize) throws UnknownHostException, SocketException {
+    public void initialize(long id, String localIP, String localPort, int datagramSize) throws UnknownHostException, SocketException 
+    {
         _pingerID       = id;
         _localPort      = Integer.parseInt(localPort);
         _localAddress   = InetAddress.getByName(localIP);
@@ -35,16 +38,21 @@ public class DatagramReflector extends Thread {
 //        _socket.setSoTimeout(1000);
     }
     
-    public void run(){
+    public void run()
+    {
         boolean loop = true;
         boolean gotDatagram = false;
         byte[] buffer = new byte[_datagramSize];
         DatagramPacket receiveDatagram = new DatagramPacket(buffer, _datagramSize);
-        while(loop){
-            try{
+        while(loop)
+        {
+            try
+            {
                 _socket.receive(receiveDatagram);
                 //gotDatagram = true;
-            } catch(IOException ioe){
+            }
+            catch(IOException ioe)
+            {
                 loop = false;
                 System.out.println("DatagramReflector::run()");
                 ioe.printStackTrace();
@@ -57,14 +65,16 @@ public class DatagramReflector extends Thread {
                     loop = false;
                 }*/
             }
-            if(loop){
+            if(loop)
+            {
                 handlePacket(receiveDatagram);
             }
             yield();
         }
     }
 
-    protected void handlePacket(DatagramPacket packet){
+    protected void handlePacket(DatagramPacket packet)
+    {
         long currentTime = System.currentTimeMillis();
         long packetID = 0;
         long packetTransmitTimestamp = 0;
@@ -74,27 +84,37 @@ public class DatagramReflector extends Thread {
         byte[] buffer = packet.getData();
         ByteArrayInputStream byteStream = new ByteArrayInputStream(buffer, 0, packet.getLength());
         DataInputStream dataStream = new DataInputStream(byteStream);
-        try{
+        try
+        {
+        	System.out.println("Try-Blick im Reflector");
             packetID = dataStream.readLong();
             packetTransmitTimestamp = dataStream.readLong();
             packetNumber = dataStream.readInt();
             //targetPort = dataStream.readInt();
             //packetMessage = dataStream.readChars();
-        } catch(IOException ioe){
+        }
+        catch(IOException ioe)
+        {
             System.out.println("DatagramReflector::handlePacket() 1");
             ioe.printStackTrace();
         }
-        if(packetID != _pingerID){
-            try{
+        if(packetID != _pingerID)
+        {
+            try
+            {
                 //DatagramPacket echoPacket = new DatagramPacket(buffer, buffer.length, packet.getAddress(), packet.getPort());
                 DatagramPacket echoPacket = packet;
                 System.out.println("echoing #" + packetNumber + " containing " + echoPacket.getLength() + " bytes to " + echoPacket.getAddress().toString() + ":" + echoPacket.getPort());
                 _socket.send(echoPacket);
-            } catch(IOException ioe){
+            }
+            catch(IOException ioe)
+            {
                 System.out.println("DatagramReflector::handlePacket() 2");
                 ioe.printStackTrace();
             }
-        }else{
+        }
+        else
+        {
             System.out.println("received packet #" + packetNumber + " roundtrip time: " + (currentTime-packetTransmitTimestamp) + "ms");
         }
     }
