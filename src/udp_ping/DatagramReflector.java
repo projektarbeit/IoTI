@@ -11,18 +11,15 @@ import java.io.*;
 public class DatagramReflector extends Thread {
     InetAddress     _localAddress;
     int             _localPort;
-//    InetAddress     _targetAddress;
-//    int             _targetPort;
     DatagramSocket  _socket;
     long            _pingerID;
     int             _datagramSize;
-//    int             _datagramNumber;
     
 
     /** Creates new DatagramReflector */
     public DatagramReflector() 
     {
-    	
+    	//nothing to do
     }
     
     public void initialize(long id, String localIP, String localPort, int datagramSize) throws UnknownHostException, SocketException 
