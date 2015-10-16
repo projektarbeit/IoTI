@@ -117,7 +117,6 @@ public class DatagramSender extends java.lang.Thread {
         long packetID = 0;
         long packetTransmitTimestamp = 0;
         int  packetNumber = 0;
-        String packetMessage;
         byte[] buffer = packet.getData();
 
         //System.out.println("handlePacket" + " containing " + packet.getLength() + " bytes from " + packet.getAddress().toString() + ":" + packet.getPort());
