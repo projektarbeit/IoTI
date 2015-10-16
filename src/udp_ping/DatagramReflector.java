@@ -67,7 +67,6 @@ public class DatagramReflector extends Thread {
         DataInputStream dataStream = new DataInputStream(byteStream);
         try
         {
-        	System.out.println("Try-Blick im Reflector");
             packetID = dataStream.readLong();
             packetTransmitTimestamp = dataStream.readLong();
             packetNumber = dataStream.readInt();
