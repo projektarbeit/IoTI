@@ -19,7 +19,7 @@ public class DatagramSender extends java.lang.Thread {
     /** Creates new DatagramReflector */
     public DatagramSender() 
     {
-    	
+    	//do nothing
     }
     
     public void initialize(long id, String targetAddress, String targetPort, int datagramSize) throws UnknownHostException, SocketException 
@@ -43,20 +43,24 @@ public class DatagramSender extends java.lang.Thread {
         {
             try
             {
+            	//Das Paket p zum Senden vorbereiten und abschicken
                 DatagramPacket p = nextPacket();
-                //System.out.println("sending " + _datagramNumber + " " + p.getLength() + " " + p.getAddress().toString() + ":" + p.getPort());
                 _socket.send(p);
             }
             catch(IOException ioe)
             {
-                //loop = false;
                 System.out.println("DatagramSender::run() " + ioe.toString());
-                //ioe.printStackTrace();
             }
             try
             {
+            	/*
+            	 * Auf das Antwortpaket warten.
+            	 * 
+            	 */
                 receiveDatagram.setData(buffer, 0, _datagramSize);
                 _socket.receive(receiveDatagram);
+                
+                //Ist die Länge des Pakets größer 0, enthält es Inhalt und ist somit gültig
                 if(receiveDatagram.getLength() > 0)
                 {
                     gotDatagram = true;
@@ -72,9 +76,9 @@ public class DatagramSender extends java.lang.Thread {
                 }else
                 {
                     System.out.println("DatagramSender::run() " + ioe.getMessage());
-                    //loop = false;
                 }
             }
+            //Wenn Paket angekommen und noch in der Schleife, dann Paket verarbeiten
             if(loop && gotDatagram)
             {
                 handlePacket(receiveDatagram);
@@ -86,14 +90,21 @@ public class DatagramSender extends java.lang.Thread {
     
     protected DatagramPacket nextPacket()
     {
+    	/*
+    	 * Den ByteArrayOutputStream erstellen (Buffer) und mit dem neu angelegten
+    	 * DataOutputStream verknüpfen
+    	 */
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(_datagramSize);
         DataOutputStream dataStream = new DataOutputStream(byteStream);
+        
+        //Daten in den Stream bzw. Buffer reinlegen
         try
         {
             dataStream.writeLong(_pingerID);
             dataStream.writeLong(System.currentTimeMillis());
             dataStream.writeInt(_datagramNumber++);
             dataStream.writeChars("UDPPing");
+            //Nutzdaten reinlegen
             byte[] tail = new byte[50000];
             for(int i=0;i<tail.length; i++)
             {
@@ -106,11 +117,22 @@ public class DatagramSender extends java.lang.Thread {
             System.out.println("DatagramSender::nextPacket()");
             ioe.printStackTrace();
         }
+        /*
+         * Den ByteStreamBuffer in ein ByteArray umwandeln und in ein neues
+         * Datagram-Objekt legen. Das Datagram-Objekt erwartet zwecks der Serialisierbarkeit
+         * ein Byte-Array. Per return wird das vorbereitete Packet zurückgegeben 
+         * und abgeschickt. 
+         * Siehe dazu Zeile 47
+         * 
+         */       
         byte[] datagramBuffer = byteStream.toByteArray();
         DatagramPacket datagram = new DatagramPacket(datagramBuffer, datagramBuffer.length, _targetAddress, _targetPort);
         return datagram;
     }
 
+    /*
+     * Diese Funktion verarbeitet das nun angekommene Paket
+     */
     protected void handlePacket(DatagramPacket packet)
     {
         long currentTime = System.currentTimeMillis();
@@ -118,11 +140,17 @@ public class DatagramSender extends java.lang.Thread {
         long packetTransmitTimestamp = 0;
         int  packetNumber = 0;
         byte[] buffer = packet.getData();
-
-        //System.out.println("handlePacket" + " containing " + packet.getLength() + " bytes from " + packet.getAddress().toString() + ":" + packet.getPort());
         
+        /*
+         * Für ein eingehendes Paket muss - analog zum ausgehenden Paket - ein ByteArrayInputStream
+         * sowie der dazugehörige DataInputStream angelegt werden. Das ByteArray wird wie beim Senden
+         * auch mit dem DataInputStream verknüpft.
+         * 
+         */
         ByteArrayInputStream byteStream = new ByteArrayInputStream(buffer, 0, packet.getLength());
         DataInputStream dataStream = new DataInputStream(byteStream);
+        
+        //Daten auslesen
         try
         {
             packetID = dataStream.readLong();
@@ -134,6 +162,12 @@ public class DatagramSender extends java.lang.Thread {
             System.out.println("DatagramSender::handlePacket() 1");
             ioe.printStackTrace();
         }
+        
+        /*
+         * Entspricht die packetID der pingerID, handelt es sich um das soeben verschickte Paket.
+         * Dadurch wird sichergestellt das dieses Paket nicht von einem anderen Client kommt.
+         */
+        
         if(packetID == _pingerID)
         {
             System.out.println("received packet #" + packetNumber + " roundtrip time: " + (currentTime-packetTransmitTimestamp) + "ms");
@@ -143,6 +177,8 @@ public class DatagramSender extends java.lang.Thread {
             System.out.println("received unknown packet!");
         }
     }
+    
+    //Diese Funktion lässt das Programm 1 Sekunde warten.
     protected void sleepABit()
     {
         try

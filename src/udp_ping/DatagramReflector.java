@@ -8,6 +8,14 @@ import java.io.*;
  * @author  cli
  * @version 
  */
+/*
+ * Der Reflector funktioniert exakt genauso wie der Sender, nur in umgekehrter Reihenfolge.
+ * Daher siehe Kommentare für DatagramSender.
+ * Der Sender verschickt ein Paket und wartet dann (blockierend) auf eine Antwort.
+ * Der Reflector wartet zuerst (blockierend) und sendet dann das Antwortpaket.
+ * 
+ */
+
 public class DatagramReflector extends Thread {
     InetAddress     _localAddress;
     int             _localPort;
