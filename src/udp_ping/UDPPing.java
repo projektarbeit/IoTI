@@ -5,23 +5,12 @@ package udp_ping;
  * @version 
  */
 public class UDPPing extends Object {
-    InnerClass zzzi;
     
     /** Creates new UDPPing */
     public UDPPing() 
     {
-        zzzi = new InnerClass();
+        //do nothing
     }
-
-    class InnerClass
-    {
-    	int i;
-    	
-    	public InnerClass()
-    	{
-    		i=0;
-    	}
-    };
 
     public void startThreads(String args[]){
         String IP      = args[0];
