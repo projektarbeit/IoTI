@@ -1,6 +1,7 @@
 package rest_calls;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
@@ -38,6 +39,13 @@ public class UserDeviceMapper {
     	
     	return "1";
     }
+    
+   @RequestMapping(method = RequestMethod.GET)
+   public String defaultfunc() {
+	   
+	   return "Error";
+	   
+   }
     
    private String err_msg (int code, String msg){
     	
