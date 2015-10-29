@@ -43,7 +43,7 @@ public class UserDeviceMapper {
    @RequestMapping(method = RequestMethod.GET)
    public String defaultfunc() {
 	   
-	   return "Error";
+	   return "Error!";
 	   
    }
     
