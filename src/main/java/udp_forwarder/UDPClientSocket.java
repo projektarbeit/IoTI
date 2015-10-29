@@ -1,4 +1,4 @@
-package udp_Forwarder;
+package udp_forwarder;
 
 import java.io.*;
 import java.net.*;
