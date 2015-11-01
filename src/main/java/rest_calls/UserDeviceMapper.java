@@ -139,6 +139,7 @@ public class UserDeviceMapper {
     		    	 iterator.remove();
     		    }  
     		    rm = false;
+    		    run = true;
     		}
     		
     		user_deviceID.put(uidl, tmp);
