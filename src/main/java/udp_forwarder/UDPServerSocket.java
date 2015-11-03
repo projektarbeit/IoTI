@@ -1,4 +1,4 @@
-package udp_forwarder;
+package main.java.udp_forwarder;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -30,7 +30,7 @@ public class UDPServerSocket {
 	}
 
 	/**
-	 * Konstruktor,die Host und Port zu verbinden   (构造函数，绑定主机和端口)
+	 * Konstruktor,die Host und Port zu verbinden   (鏋勯�犲嚱鏁帮紝缁戝畾涓绘満鍜岀鍙�)
 	 */
 	public UDPServerSocket(String host, int port) throws Exception {
 		socketAddress = new InetSocketAddress(host, port);
@@ -39,7 +39,7 @@ public class UDPServerSocket {
 	}
 
 	/**
-	 * Packet aufnehmen.  接收数据包，该方法会造成线程阻塞
+	 * Packet aufnehmen.  鎺ユ敹鏁版嵁鍖咃紝璇ユ柟娉曚細閫犳垚绾跨▼闃诲顢�
 	 */
 	public final String receive() throws IOException {
 		packet = new DatagramPacket(buffer, buffer.length);
@@ -50,7 +50,7 @@ public class UDPServerSocket {
 	}
 
 	/**
-	 * Der Server sendet den Req. an Client  将响应包发送给请求端
+	 * Der Server sendet den Req. an Client  灏嗗搷搴斿寘鍙戦�佺粰璇锋眰绔�
 	 */
 	public final void response(String info) throws IOException {
 		System.out.println("ClientAdresse : " + packet.getAddress().getHostAddress()

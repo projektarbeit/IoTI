@@ -1,4 +1,4 @@
-package rest_calls;
+package main.java.rest_calls;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

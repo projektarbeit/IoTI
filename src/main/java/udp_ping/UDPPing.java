@@ -1,4 +1,4 @@
-package udp_ping;
+package main.java.udp_ping;
 /**
  *
  * @author  cli

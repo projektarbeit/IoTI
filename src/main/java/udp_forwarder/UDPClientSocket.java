@@ -1,11 +1,11 @@
-package udp_forwarder;
+package main.java.udp_forwarder;
 
 import java.io.*;
 import java.net.*;
 
 /**
  * UDPClient, Um die Daten an Server zu senden und die Response aus Server zu bekommen
- * UDP客户端程序，用于对服务端发送数据，并接收服务端的回应信息
+ * UDP瀹㈡埛绔▼搴忥紝鐢ㄤ簬瀵规湇鍔＄鍙戦�佹暟鎹紝骞舵帴鏀舵湇鍔＄鐨勫洖搴斾俊鎭�
  */
 public class UDPClientSocket {
 	private byte[] buffer = new byte[1024];
@@ -13,8 +13,8 @@ public class UDPClientSocket {
 	private static DatagramSocket ds = null;
 	
 	/**
-	 * TestMetode für ClientPacket Senden und Response Aufnahme
-	 * 测试客户端发包和接收回应信息的方法
+	 * TestMetode f眉r ClientPacket Senden und Response Aufnahme
+	 * 娴嬭瘯瀹㈡埛绔彂鍖呭拰鎺ユ敹鍥炲簲淇℃伅鐨勬柟娉�
 	 */
 	public static void main(String[] args) throws Exception {
 		UDPClientSocket client = new UDPClientSocket();
@@ -23,7 +23,7 @@ public class UDPClientSocket {
 		client.send(serverHost, serverPort, ("Hallo!").getBytes());
 		byte[] bt = client.receive();
 		System.out.println("Server antwortet:" + new String(bt));
-		// schliessen Verbunden 关闭连接
+		// schliessen Verbunden 鍏抽棴杩炴帴
 		try {
 			ds.close();
 		} catch (Exception ex) {
@@ -32,15 +32,15 @@ public class UDPClientSocket {
 	}
 
 	/**
-	 * Konstruktor   构造函数，创建UDP客户端
+	 * Konstruktor   鏋勯�犲嚱鏁帮紝鍒涘缓UDP瀹㈡埛绔�
 	 */
 	public UDPClientSocket() throws Exception {
-		ds = new DatagramSocket(8899); // hostport als Client  邦定本地端口作为客户端
+		ds = new DatagramSocket(8899); // hostport als Client  閭﹀畾鏈湴绔彛浣滀负瀹㈡埛绔�
 	}
 	
 	/**
 	 * senden Daten an Server
-	 * 向指定的服务端发送数据信息
+	 * 鍚戞寚瀹氱殑鏈嶅姟绔彂閫佹暟鎹俊鎭�
 	 */
 	public final void send(final String host, final int port,
 			final byte[] bytes) throws IOException {
@@ -50,7 +50,7 @@ public class UDPClientSocket {
 
 	/**
 	 * nehmen die Daten aus Server auf
-	 * 接收从指定的服务端发回的数据
+	 * 鎺ユ敹浠庢寚瀹氱殑鏈嶅姟绔彂鍥炵殑鏁版嵁
 	 */
 	public final byte[] receive()
 			throws Exception {
