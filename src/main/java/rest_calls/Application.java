@@ -1,4 +1,4 @@
-package main.java.rest_calls;
+package rest_calls;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
