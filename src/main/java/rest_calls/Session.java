@@ -29,8 +29,6 @@ public class Session{
 	}
 	@RequestMapping("session/{sessionID}")
 	public String session(@PathVariable(value="sessionID")String sessionID){
-		//System.out.println(ipIdMap.toString());
-		//System.out.println(ipIdMap.get(sessionID).getTime().toString()+" P: "+ ipIdMap.get(sessionID).getPort());
 		if(ipIdMap.containsKey(sessionID)){
 			return "Gültige Session";
 		}

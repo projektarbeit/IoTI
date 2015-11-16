@@ -19,6 +19,8 @@ public class SessionObj {
 	public int getPort(){return port;}
 	public LocalDateTime getTime(){return time;}
 	
+	
+	
 	public String toJSON(){
 		JSONObject obj = new JSONObject();
 		try {
