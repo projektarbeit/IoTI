@@ -1,4 +1,4 @@
-package main.java.udp_forwarder;
+package udp_forwarder;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

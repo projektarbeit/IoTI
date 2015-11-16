@@ -1,4 +1,4 @@
-package main.java.udp_ping;
+package udp_ping;
 /**
  *
  * @author  cli
@@ -18,7 +18,7 @@ public class UDPPing extends Object {
         long id = System.currentTimeMillis();
         
         /*
-         * Sind beim Programmstart genau zwei Argumente übergeben wordeb (IP-Adresse und Port),
+         * Sind beim Programmstart genau zwei Argumente ï¿½bergeben wordeb (IP-Adresse und Port),
          * so wird ein Sender erstellt.
          */
         if(args.length == 2){
@@ -38,7 +38,7 @@ public class UDPPing extends Object {
          * Ist das dritte Argument ( args[2] ) mit "echo" angegeben, 
          * so wird der Reflector erstellt.
          * Beide Klassen, der Sender und der Reflector, erben jeweils von der Klasse Thread.
-         * Demnach überschreiben beide Klassen die vererbte Methode run(). Durch den Aufruf von
+         * Demnach ï¿½berschreiben beide Klassen die vererbte Methode run(). Durch den Aufruf von
          * sender.start() bzw. reflector.start() wird die run-Methode aufgerufen und erstellt
          * einen Thread.
          */
@@ -64,7 +64,7 @@ public class UDPPing extends Object {
 
     	/*
     	 * Sind weniger als 2 oder mehr als 3 Argumente angegeben, ist
-    	 * der Programmaufruf ungültig.
+    	 * der Programmaufruf ungï¿½ltig.
     	 */
         if(args.length < 2 || args.length > 3)
         {
@@ -74,7 +74,7 @@ public class UDPPing extends Object {
         }
         
         /*
-         * Sind 2 oder 3 Argumente angegeben wird das Programm ausgeführt,
+         * Sind 2 oder 3 Argumente angegeben wird das Programm ausgefï¿½hrt,
          * entweder als Sender oder als Reflector. 
          */
         else

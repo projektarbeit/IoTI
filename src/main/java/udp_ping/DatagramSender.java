@@ -1,4 +1,4 @@
-package main.java.udp_ping;
+package udp_ping;
 
 import java.net.*;
 import java.io.*;
@@ -60,7 +60,7 @@ public class DatagramSender extends java.lang.Thread {
                 receiveDatagram.setData(buffer, 0, _datagramSize);
                 _socket.receive(receiveDatagram);
                 
-                //Ist die Länge des Pakets größer 0, enthält es Inhalt und ist somit gültig
+                //Ist die Lï¿½nge des Pakets grï¿½ï¿½er 0, enthï¿½lt es Inhalt und ist somit gï¿½ltig
                 if(receiveDatagram.getLength() > 0)
                 {
                     gotDatagram = true;
@@ -92,7 +92,7 @@ public class DatagramSender extends java.lang.Thread {
     {
     	/*
     	 * Den ByteArrayOutputStream erstellen (Buffer) und mit dem neu angelegten
-    	 * DataOutputStream verknüpfen
+    	 * DataOutputStream verknï¿½pfen
     	 */
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream(_datagramSize);
         DataOutputStream dataStream = new DataOutputStream(byteStream);
@@ -120,7 +120,7 @@ public class DatagramSender extends java.lang.Thread {
         /*
          * Den ByteStreamBuffer in ein ByteArray umwandeln und in ein neues
          * Datagram-Objekt legen. Das Datagram-Objekt erwartet zwecks der Serialisierbarkeit
-         * ein Byte-Array. Per return wird das vorbereitete Packet zurückgegeben 
+         * ein Byte-Array. Per return wird das vorbereitete Packet zurï¿½ckgegeben 
          * und abgeschickt. 
          * Siehe dazu Zeile 47
          * 
@@ -142,9 +142,9 @@ public class DatagramSender extends java.lang.Thread {
         byte[] buffer = packet.getData();
         
         /*
-         * Für ein eingehendes Paket muss - analog zum ausgehenden Paket - ein ByteArrayInputStream
-         * sowie der dazugehörige DataInputStream angelegt werden. Das ByteArray wird wie beim Senden
-         * auch mit dem DataInputStream verknüpft.
+         * Fï¿½r ein eingehendes Paket muss - analog zum ausgehenden Paket - ein ByteArrayInputStream
+         * sowie der dazugehï¿½rige DataInputStream angelegt werden. Das ByteArray wird wie beim Senden
+         * auch mit dem DataInputStream verknï¿½pft.
          * 
          */
         ByteArrayInputStream byteStream = new ByteArrayInputStream(buffer, 0, packet.getLength());
@@ -178,7 +178,7 @@ public class DatagramSender extends java.lang.Thread {
         }
     }
     
-    //Diese Funktion lässt das Programm 1 Sekunde warten.
+    //Diese Funktion lï¿½sst das Programm 1 Sekunde warten.
     protected void sleepABit()
     {
         try
