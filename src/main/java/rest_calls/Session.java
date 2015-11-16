@@ -13,20 +13,24 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class Session{
 	String id;
-	HashMap<String,String> ipIdMap = new HashMap<>();
+	HashMap<String,SessionObj> ipIdMap = new HashMap<>();
 	
 	/*
 	 * Erstellen einer Session und weiterleiten zu einer leeren
 	 * Seite mit SessionID
 	 */
-	@RequestMapping("session/creat")
+	
+	@RequestMapping("session/create")
 	public ModelAndView creatSession(HttpServletRequest request){
 		id = UUID.randomUUID().toString();
-		ipIdMap.put(id,request.getRemoteAddr());
+		ipIdMap.put(id,new SessionObj(request.getRemoteAddr(),request.getRemotePort()));
 		return new ModelAndView("redirect:"+id);
+		
 	}
 	@RequestMapping("session/{sessionID}")
 	public String session(@PathVariable(value="sessionID")String sessionID){
+		//System.out.println(ipIdMap.toString());
+		//System.out.println(ipIdMap.get(sessionID).getTime().toString()+" P: "+ ipIdMap.get(sessionID).getPort());
 		if(ipIdMap.containsKey(sessionID)){
 			return "Gültige Session";
 		}
@@ -54,6 +58,17 @@ public class Session{
 			return json_msg(202,"Erfolgreich gelöscht");
 		}
 		return json_msg(404,"fehler");
+	}
+	/*
+	 * Session Info ausgeben
+	 * alle Arttribute von einem SessionObj in json ausgeben
+	 */
+	@RequestMapping("session/{sessionID}/sessionInfo")
+	public String sessionInfo(@PathVariable(value="sessionID")String sessionID){
+		if(sessionPruefen(sessionID)){
+			return ipIdMap.get(sessionID).toJSON();
+		}
+		return "Ungültige Session";
 	}
 	
 	/*
