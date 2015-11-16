@@ -1,4 +1,4 @@
-package main.java.udp_ping;
+package udp_ping;
 
 import java.net.*;
 import java.io.*;
@@ -10,7 +10,7 @@ import java.io.*;
  */
 /*
  * Der Reflector funktioniert exakt genauso wie der Sender, nur in umgekehrter Reihenfolge.
- * Daher siehe Kommentare für DatagramSender.
+ * Daher siehe Kommentare fï¿½r DatagramSender.
  * Der Sender verschickt ein Paket und wartet dann (blockierend) auf eine Antwort.
  * Der Reflector wartet zuerst (blockierend) und sendet dann das Antwortpaket.
  * 
