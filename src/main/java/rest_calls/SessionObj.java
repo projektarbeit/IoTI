@@ -1,11 +1,12 @@
 package rest_calls;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SessionObj {
+public class SessionObj implements Serializable {
 	private String ip;
 	private int port;
 	private LocalDateTime time;
