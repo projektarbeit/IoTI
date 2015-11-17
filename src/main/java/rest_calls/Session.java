@@ -30,14 +30,14 @@ public class Session {
 	 */
 
 	  @PostConstruct
-	  public void populateMovieCache() {
+	  public void loadHashmap() {
 	      
 		  loadObjects();
 		  
 	  }
 
 	  @PreDestroy
-	  public void clearMovieCache() {
+	  public void saveHashmap() {
 	 
 		  saveObjects();
 		  
