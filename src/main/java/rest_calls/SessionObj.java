@@ -7,26 +7,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SessionObj implements Serializable {
-	private String ip;
-	private int port;
+	//private String ip;
+	//private int port;
 	private LocalDateTime time;
+	private String sessionID;
 	
-	public SessionObj(String ip,int port){
-		this.ip = ip;
-		this.port = port;
+	public SessionObj(String sessionID){
+		this.sessionID = sessionID;
 		time = LocalDateTime.now();
 	}
-	public String getIp(){return ip;}
-	public int getPort(){return port;}
+	public String getSessionID(){return sessionID;}
 	public LocalDateTime getTime(){return time;}
 	
-	
+	public String toString(){
+		return sessionID+time.toString();
+	}
 	
 	public String toJSON(){
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("IP: ",ip);
-			obj.put("Port: ", port);
+			obj.put("sessionID: ",sessionID);
 			obj.put("Zeit: ", time);
 			
 		} catch (JSONException e) {
