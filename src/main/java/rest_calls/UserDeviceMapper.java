@@ -19,7 +19,7 @@ public class UserDeviceMapper {
 	private HashMap<Long, Set<Long>> user_deviceID = new HashMap<Long, Set<Long>>();
 	
 	/* Erstellen eines neuen Nutzers mit der UID
-	 * Bsp: http://localhost:8080/newuser?uid=42
+	 * Bsp: http://localhost:1880/newuser?uid=42
 	 */
     @RequestMapping("/adduser")
     public String adduser(@RequestParam(value="uid") String uid) {
@@ -45,7 +45,7 @@ public class UserDeviceMapper {
     }
     
 	/* Löschen eines Nutzers mit der UID
-	 * Bsp: http://localhost:8080/deleteuser?uid=42
+	 * Bsp: http://localhost:1880/deleteuser?uid=42
 	 */
     @RequestMapping("/deleteuser")
     public String deleteuser(@RequestParam(value="uid") String uid) {
@@ -70,7 +70,7 @@ public class UserDeviceMapper {
     }
     
     /* Hinzufügen eines Devices mit dem device ID zu einem Nutzer (uid)
-	 * Bsp: http://localhost:8080/adddevices?uid=42&did=1,2,3,4
+	 * Bsp: http://localhost:1880/adddevices?uid=42&did=1,2,3,4
 	 */
     @RequestMapping("/adddevices")
     public String adddevice(@RequestParam(value="uid") String uid, @RequestParam(value="did") String did) {
@@ -103,7 +103,7 @@ public class UserDeviceMapper {
     }
     
     /* Löschen von Devices mit dem device ID zu einem Nutzer (uid)
-	 * Bsp: http://localhost:8080/removedevices?uid=42&did=1,2,3,4
+	 * Bsp: http://localhost:1880/removedevices?uid=42&did=1,2,3,4
 	 */
     @RequestMapping("/removedevices")
     public String removedevices(@RequestParam(value="uid") String uid, @RequestParam(value="did") String did) {
@@ -151,7 +151,7 @@ public class UserDeviceMapper {
     }
     
 	/* Alle Devices einer uid anzeigen
-	 * Bsp: http://localhost:8080/getdevices?uid=1
+	 * Bsp: http://localhost:1880/getdevices?uid=1
 	 */
     @RequestMapping("/getdevices")
     public String getdevices(@RequestParam(value="uid") String uid) {
