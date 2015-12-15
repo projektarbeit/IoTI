@@ -29,14 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class Session {
 	String id;
 	HashMap<String, SessionObj> ipIdMap = new HashMap<>();
-	HashMap<Integer, String> devMap = new HashMap<>();
-
-
-	/*
-	 * Erstellen einer Session und weiterleiten zu einer leeren Seite mit
-	 * SessionID
-	 */
-
+	HashMap<String, String> devMap = new HashMap<>();
+	HashMap<String, String> devMapE = new HashMap<>();
+	
 	  @PostConstruct
 	  public void loadHashmap() {
 		  loadObjects();
@@ -47,14 +42,15 @@ public class Session {
 		  saveObjects();
 	  }
 	
+	 /*
+	 * Erstellen einer Session und weiterleiten zu einer leeren Seite mit
+	 * SessionID
+	 */
 	@RequestMapping("session/create")
 	public ModelAndView creatSession(HttpServletRequest request) {
 		id = UUID.randomUUID().toString();
-		devMap.put(1, "div1");
-		devMap.put(2, "div2");
-		System.out.println("jemand da!	");
 		ipIdMap.put(id, new SessionObj(id));
-		System.out.println("? "+ipIdMap.get(id).toString());
+		System.out.println("Neu: "+ipIdMap.get(id).toString());
 		return new ModelAndView("redirect:" + id);
 	}
 
@@ -68,12 +64,15 @@ public class Session {
 
 	/*
 	 * Löschen der aktuellen Session
+	 * und Session aus Devices löschen die man genutzt hat
 	 */
 	@RequestMapping("session/{sessionID}/delete")
 	public String delete(@PathVariable(value = "sessionID") String sessionID) {
-		// System.out.println("delete: "+ipIdMap.toString());
 		if (sessionPruefen(sessionID)) {
 			ipIdMap.remove(sessionID);
+			if(devMap.containsValue(sessionID)){
+				devMap.put(devMapE.get(sessionID),"unused");
+			}
 			return json_msg(202, "Erfolgreich gelöscht");
 		}
 		return json_msg(404, "fehler");
@@ -90,38 +89,42 @@ public class Session {
 		}
 		return "Ungültige Session";
 	}
+	/*
+	 * longpoll über REST für die Devices 
+	 */
+	@RequestMapping("heartbeat")
+	public String heartBeat(@RequestParam(value = "did") String did){
+		String dID = did;
+		if(devMap.containsKey(dID)){
+			if(!devMap.get(dID).equals("unused")){
+				return json_msg(1,devMap.get(dID));
+			}
+			return json_msg(0,"");
+		}
+		devMap.put(dID, "unused");
+		return json_msg(2, "");
+	}
 	
 	/*
 	 * Das Gerät wählen mit dem man verbunden werden möchte
-	 * .../session/{sessionID}/div?did=1
+	 * .../session/{sessionID}/dev?did=1
 	 * sessionID wird per UDP an das gewählt Gerät übertragen
 	 */
 	@RequestMapping("session/{sessionID}/dev")
 	public String chooseDev(@PathVariable(value = "sessionID") String sessionID,
 					   	    @RequestParam(value="did") String did) {
-		int dID;
-		dID = (int) Integer.valueOf(did).longValue();
+		String dID = did;
 		if(sessionPruefen(sessionID)){
 			if(devMap.containsKey(dID)){
-				//System.out.println("test: "+dID);
-				try{
-				byte[] msg = sessionID.getBytes();
-				int port = 80;
-				InetAddress address = InetAddress.getByName("139.13.81.104");
-				DatagramPacket packet = new DatagramPacket(msg, msg.length, address, port);
-				DatagramSocket dsocket = new DatagramSocket();
-				System.out.println("packet senden");
-				dsocket.send(packet);
-				dsocket.close();
-				}catch(Exception e){
-					System.out.println(e);
-				}
-				return "Session wird an Devise übertragen";
+				devMapE.put(sessionID, dID);
+				devMap.put(dID,sessionID);
+				return json_msg(0,"Session wird an Dev übergeben");
 			}
-			return "Ungültige Devise-ID";
+			return json_msg(0,"ungültige DID");
 		}
-		return "Ungültige Session";
+		return json_msg(0,"ungültige SessionID");
 	}
+	
 	/*
 	 * Zum überprüfen der SessionID ob sie Gültig ist
 	 */
