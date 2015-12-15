@@ -19,7 +19,7 @@ public class UserDeviceMapper {
 	private HashMap<Long, Set<Long>> user_deviceID = new HashMap<Long, Set<Long>>();
 	
 	/* Erstellen eines neuen Nutzers mit der UID
-	 * Bsp: http://localhost:1880/newuser?uid=42
+	 * Bsp: http://localhost:1880/adduser?uid=42
 	 */
     @RequestMapping("/adduser")
     public String adduser(@RequestParam(value="uid") String uid) {
